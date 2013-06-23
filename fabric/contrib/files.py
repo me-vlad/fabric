@@ -137,7 +137,7 @@ def sed(filename, before, after, limit='', use_sudo=False, backup='.bak',
     file creation.
 
     For convenience, ``before`` and ``after`` will automatically escape forward
-    slashes, single quotes and parentheses for you, so you don't need to
+    slashes, double quotes and parentheses for you, so you don't need to
     specify e.g.  ``http:\/\/foo\.com``, instead just using ``http://foo\.com``
     is fine.
 
@@ -162,7 +162,7 @@ def sed(filename, before, after, limit='', use_sudo=False, backup='.bak',
     """
     func = use_sudo and sudo or run
     # Characters to be escaped in both
-    for char in "/'":
+    for char in '/"':
         before = before.replace(char, r'\%s' % char)
         after = after.replace(char, r'\%s' % char)
     # Characters to be escaped in replacement only (they're useful in regexen
@@ -172,7 +172,7 @@ def sed(filename, before, after, limit='', use_sudo=False, backup='.bak',
     if limit:
         limit = r'/%s/ ' % limit
     context = {
-        'script': r"'%ss/%s/%s/%sg'" % (limit, before, after, flags),
+        'script': r'"%ss/%s/%s/%sg"' % (limit, before, after, flags),
         'filename': _expand_path(filename),
         'backup': backup
     }
@@ -192,8 +192,9 @@ def sed(filename, before, after, limit='', use_sudo=False, backup='.bak',
 && cp -p %(filename)s %(filename)s%(backup)s \
 && mv %(tmp)s %(filename)s"""
     else:
+        context['backup_suffix'] = '-i ' if platform == 'FreeBSD' else '-i'
         context['extended_regex'] = '-E' if platform == 'Darwin' else '-r'
-        expr = r"sed -i%(backup)s %(extended_regex)s -e %(script)s %(filename)s"
+        expr = r'sed %(backup_suffix)s"%(backup)s" %(extended_regex)s -e %(script)s %(filename)s'
     command = expr % context
     return func(command, shell=shell)
 
