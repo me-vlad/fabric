@@ -25,6 +25,24 @@ would have also been included in the 1.2 line.
 Changelog
 =========
 
+* :release:`1.7.0 <2013-07-26>`
+* :release:`1.6.2 <2013-07-26>`
+* :feature:`925` Added `contrib.files.is_link <.is_link>`. Thanks to `@jtangas`
+  for the patch.
+* :feature:`922` Task argument strings are now displayed when using
+  :option:`fab -d <-d>`. Thanks to Kevin Qiu for the patch.
+* :bug:`912` Leaving ``template_dir`` un-specified when using
+  `.upload_template` in Jinja mode used to cause ``'NoneType' has no attribute
+  'startswith'`` errors. This has been fixed. Thanks to Erick Yellott for catch
+  & to Erick Yellott + Kevin Williams for patches.
+* :feature:`924` Add new env var option :ref:`colorize-errors` to enable coloring errors and
+  warnings. Thanks to Aaron Meurer for the patch.
+* :bug:`593` Non-ASCII character sets in Jinja templates rendered within
+  `.upload_template` would cause ``UnicodeDecodeError`` when uploaded. This has
+  been addressed by encoding as ``utf-8`` prior to upload. Thanks to Sébastien
+  Fievet for the catch.
+* :feature:`908` Support loading SSH keys from memory. Thanks to Caleb Groom
+  for the patch.
 * :bug:`171` Added missing cross-references from ``env`` variables documentation
   to corresponding command-line options. Thanks to Daniel D. Beck for the
   contribution.
@@ -38,7 +56,8 @@ Changelog
   "bounce" folder to use when calling `.put` with ``use_sudo=True``. Thanks to
   Devin Bayer for the report & Dieter Plaetinck / Jesse Myers for suggesting
   the workaround.
-* :bug:`882` Fix getting files when the remote CWD contains spaces
+* :bug:`882` Fix a `.get` bug regarding spaces in remote working directory
+  names. Thanks to Chris Rose for catch & patch.
 * :release:`1.6.1 <2013-05-23>`
 * :bug:`868` Substantial speedup of parallel tasks by removing an unnecessary
   blocking timeout in the ``JobQueue`` loop. Thanks to Simo Kinnunen for the
@@ -196,7 +215,7 @@ Changelog
   Arnold for the patch.
 * :feature:`699` Allow `name` attribute on file-like objects for get/put. Thanks
   to Peter Lyons for the pull request.
-* :bug:`711` `~fabric.sftp.get` would fail when filenames had % in their path.  
+* :bug:`711` `~fabric.sftp.get` would fail when filenames had % in their path.
   Thanks to John Begeman
 * :bug:`702` `~fabric.operations.require` failed to test for "empty" values in
   the env keys it checks (e.g.
